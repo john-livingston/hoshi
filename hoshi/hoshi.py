@@ -20,24 +20,14 @@ class Mamajek:
             n = self.n
 
         if color == 'B-V':
-            a_str = 'B'
-            b_str = 'V'
             M_str = 'Mv'
         elif color == 'V-Ks':
-            a_str = 'V'
-            b_str = 'K'
             M_str = 'Mv'
         elif color == 'J-H':
-            a_str = 'J'
-            b_str = 'H'
             M_str = 'M_J'
         elif color == 'H-K':
-            a_str = 'H'
-            b_str = 'K'
             M_str = 'M_Ks'
         elif color == 'Ks-W1':
-            a_str = 'K'
-            b_str = 'W1'
             M_str = 'M_Ks'
 
         s = np.random.randn(n) * uc + c
