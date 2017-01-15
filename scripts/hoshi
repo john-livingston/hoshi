@@ -12,12 +12,13 @@ parser = argparse.ArgumentParser(description="Query the stellar parameters of Ma
 parser.add_argument('--color', help='Color to query by. Options are: '
     'B-V, V-Ks, J-H, H-K, Ks-W1', type=str, default='V-Ks')
 parser.add_argument('--epic', help='EPIC ID number', type=str)
+parser.add_argument('--n', help='Number of MC trials', type=int, default=int(1e4))
 
 args = parser.parse_args()
 
 color = args.color
 epic = args.epic
-
+n = args.n
 
 if color == 'B-V':
     a_str = 'B'
@@ -59,7 +60,7 @@ except:
 
 try:
     mamajek = hoshi.Mamajek()
-    mamajek.query(color, c, uc, m)
+    mamajek.query(color, c, uc, m, n=n)
 except:
     print "Error with query"
     sys.exit()
