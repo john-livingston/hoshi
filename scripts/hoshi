@@ -21,6 +21,8 @@ args = parser.parse_args()
 color = args.color
 epic = args.epic
 n = args.n
+mu = args.mu
+sig = args.sig
 
 if color == 'B-V':
     a_str = 'B'
@@ -73,7 +75,7 @@ else:
 
     try:
         mamajek = hoshi.Mamajek()
-        mamajek.query(color, args.mu, args.sig, n=n)
+        mamajek.query(color, mu, sig, n=n)
     except:
-        print "Error with query2"
+        print "Error with query"
         sys.exit()
