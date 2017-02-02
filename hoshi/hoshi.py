@@ -14,7 +14,7 @@ class Mamajek:
         self.df['SpT_let'] = [i[0] for i in self.df['SpT']]
         self.n = int(1e4)
 
-    def query(self, color, c, uc, m, n=None):
+    def query(self, color, c, uc, m=None, n=None):
 
         if n is None:
             n = self.n
@@ -52,8 +52,9 @@ class Mamajek:
         spt_let = df['SpT_let'][int(round(np.nanmean(spt)))]
         print "SpT = {0}{1:.1f}V +/- {2:.1f}".format(spt_let, np.nanmean(res), np.nanstd(res))
 
-        targ = M_str
-        idx = ~df[[color,targ]].isnull().any(axis=1)
-        res = np.interp(s, df[idx][color].values, df[idx][targ].values)
-        d = dist(m, res)
-        print "Dphot = {0:.0f} +/- {1:.0f} pc".format(np.nanmean(d), np.nanstd(d))
+        if m is not None:
+            targ = M_str
+            idx = ~df[[color,targ]].isnull().any(axis=1)
+            res = np.interp(s, df[idx][color].values, df[idx][targ].values)
+            d = dist(m, res)
+            print "Dphot = {0:.0f} +/- {1:.0f} pc".format(np.nanmean(d), np.nanstd(d))

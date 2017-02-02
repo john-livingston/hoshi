@@ -11,8 +11,10 @@ import hoshi
 parser = argparse.ArgumentParser(description="Query the stellar parameters of Mamajek & Pecaut (2013)")
 parser.add_argument('--color', help='Color to query by. Options are: '
     'B-V, V-Ks, J-H, H-K, Ks-W1', type=str, default='V-Ks')
-parser.add_argument('--epic', help='EPIC ID number', type=str)
+parser.add_argument('--epic', help='EPIC ID number', type=str, default=None)
 parser.add_argument('--n', help='Number of MC trials', type=int, default=int(1e4))
+parser.add_argument('--mu', help='Color value', type=float, default=None)
+parser.add_argument('--sig', help='Color uncertainty', type=float, default=None)
 
 args = parser.parse_args()
 
@@ -41,26 +43,37 @@ elif color == 'Ks-W1':
     b_str = 'W1'
     m_str = 'K'
 
-try:
-    phot = exofop.get_phot(epic, verbose=False)
-except:
-    print "Error retrieving photometry"
-    sys.exit()
+if args.epic is not None:
 
-try:
-    a,ua = phot[a_str]
-    b,ub = phot[b_str]
-    c, uc = a-b, np.sqrt(ua**2 + ub**2)
-    print "{0} = {1:.3f} +/- {2:.3f}".format(color, c, uc)
-    m = phot[m_str][0]
-except:
-    print "Error reading photometry. Photometry available for bands:"
-    print ', '.join(sorted(phot.keys()))
-    sys.exit()
+    try:
+        phot = exofop.get_phot(epic, verbose=False)
+    except:
+        print "Error retrieving photometry"
+        sys.exit()
 
-try:
-    mamajek = hoshi.Mamajek()
-    mamajek.query(color, c, uc, m, n=n)
-except:
-    print "Error with query"
-    sys.exit()
+    try:
+        a,ua = phot[a_str]
+        b,ub = phot[b_str]
+        c, uc = a-b, np.sqrt(ua**2 + ub**2)
+        print "{0} = {1:.3f} +/- {2:.3f}".format(color, c, uc)
+        m = phot[m_str][0]
+    except:
+        print "Error reading photometry. Photometry available for bands:"
+        print ', '.join(sorted(phot.keys()))
+        sys.exit()
+
+    try:
+        mamajek = hoshi.Mamajek()
+        mamajek.query(color, c, uc, m, n=n)
+    except:
+        print "Error with query"
+        sys.exit()
+
+else:
+
+    try:
+        mamajek = hoshi.Mamajek()
+        mamajek.query(color, args.mu, args.sig, n=n)
+    except:
+        print "Error with query2"
+        sys.exit()
