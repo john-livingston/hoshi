@@ -34,7 +34,7 @@ setup(
     packages =['hoshi'],
     version="0.1.1",
     author='John Livingston',
-    author_email = 'jliv84@gmail.com',
+    author_email = 'livingston.astro@gmail.com',
     url = 'https://github.com/john-livingston/hoshi',
     license = ['GNU GPLv3'],
     description ='Stellar parameters',
